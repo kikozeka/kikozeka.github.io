@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>screen orientation event</title>
+<style>
+body{
+background-color: black;
+color: white;
+}
+h1{
+font-size: 50px; 
+}
+</style>
+</head>
+<body >
+        <p id="orientation"> "resize" event calls function clientWidth and clientHeight</p>
+<h1 id= "a"> </h1>
+<h1 id= "b"> </h1>
+<h1 id= "c"> </h1>
+<script>
+/*
+var wid = window.innerWidth;
+var hei = window.innerHeight;
+document.getElementById("a").innerHTML = wid;
+document.getElementById("b").innerHTML = hei;
+*/
+function readDeviceOrientation() {
+var clientW = document.documentElement.clientWidth;
+var clientH = document.documentElement.clientHeight;
+if (Math.abs(window.orientation) === 90) {
+// Landscape
+
+
+document.getElementById("c").innerHTML = window.orientation +"   " + clientW + "   " + clientH;
+} else {
+// Portrait
+document.getElementById("c").innerHTML = window.orientation +"   " + clientW + "   " + clientH;
+
+}
+}
+window.onresize = readDeviceOrientation;
+</script>
+</body>
+</html>
