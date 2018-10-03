@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>abeceda table</title>
+<link rel="stylesheet" type="text/css" href="createSvgAbecedaTable.css">
+</head>
+<body>
+<svg id= "mySVG" xmlns="http://www.w3.org/2000/svg" 
+     width= "100%" height= "100%" 
+style=" outline: 3px solid #FF0000; "
+>
+</svg>
+<!--
+<p id = "demo">Click the button to make a BUTTON element.</p>
+-->
+<script>
+// creating array with 30 elements of croatian alphabet
+var abeceda =[
+"A","B","C","Č","Ć","D","Dž","Đ","E","F",
+"G","H","I","J","K","L","Lj","M","N","Nj",
+"O","P","R","S","Š","T","U","V","Z","Ž"]
+// this variables stores how much is raw  offset from left and top edge of screen
+// declaration and init value
+var rawX = 0;
+var rawY = 0;
+// fetching the inner width and inner height of the window
+var winW = window.innerWidth;
+var winH = window.innerHeight;
+// loop that creates 30 text elements
+var i;
+for ( i = 0; i < 30; i++){
+var xmlns = "http://www.w3.org/2000/svg";
+var svg = document.getElementsByTagName('svg')[0];
+var elem = document.createElementNS(xmlns, "text");
+// spacing the first raw and breaking the raws that comes  afterward
+if (i == 0){
+rawX = winW/10;
+rawY+= winH/10;
+}
+else if( i % 5 != 0){
+rawX+= winW/5;
+}
+else if (i % 5 == 0){
+rawX = winW/10;
+rawY += winH/6;
+}
+// setting text element x and y position attributes
+elem.setAttributeNS(null,"x",rawX);
+elem.setAttributeNS(null,"y",rawY);
+// setting the stroke color and width, id and inner text attributes of text element
+elem.setAttributeNS(null, "stroke", "green");
+elem.setAttributeNS(null, "stroke-width", 3);
+elem.setAttributeNS(null, "id",abeceda[i]);
+elem.textContent= abeceda[i];
+// font size is determined by innerWidth or innerHeight of the window
+elem.style.fontSize = winH/16+"px";
+
+svg.appendChild(elem);
+} //end of loop
+// centering text elements horizontally
+for (k = 0; k < 30; k++){
+var textElemArect = document.getElementById("A").getBoundingClientRect();
+var textMoveLeft = textElemArect.width/2;
+var textElem = document.getElementById(abeceda[k]);
+var textR = textElem.getBoundingClientRect();
+
+var xpos = textR.x - textMoveLeft;
+textElem.setAttributeNS(null, "x", xpos);
+}
+
+// now we adding an event listener for each text element
+var letters = document.getElementsByTagName("text");
+var i;
+for (i = 0; i < letters.length; i++){
+
+letters[i].addEventListener("click", changeP);
+letters[i].addEventListener("touchStart", changeP);
+} // event listener has been added
+function changeP(event){ 
+document.getElementsByTagName("p")[0].innerHTML = event.target.textContent;
+}
+/*
+// now we are creating 30 <image> elements using "for" loop
+
+
+var j;
+for ( j = 0; j < 1000; j+= 100){
+
+
+var xmlns = "http://www.w3.org/2000/svg";
+var svg = document.getElementsByTagName('svg')[0];
+var imgElem = document.createElementNS(xmlns, "image");
+imgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', 'angel.jpg');
+imgElem.setAttributeNS(null, "width", 100);
+imgElem.setAttributeNS(null, "height", 100);
+imgElem.setAttributeNS(null, "x", j);
+imgElem.setAttributeNS(null, "y", 0);
+svg.appendChild(imgElem);
+}
+// end of loop
+*/
+window.addEventListener("orientationchange", function() {
+window.setTimeout(loadAgain, 500);
+function loadAgain(){
+window.location.reload(true);
+}
+
+});
+</script>
+</body>
+</html>                                         
