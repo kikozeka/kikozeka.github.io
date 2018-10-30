@@ -4,19 +4,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>abeceda table</title>
 <link rel="stylesheet" type="text/css" href="createSvgAbecedaTable.css">
+<script src= "anime.min.js"></script>
 </head>
 <body>
+
 <audio id= "myAudio">
 <source src="shotgun.ogg" type="audio/ogg">
 <source src="shotgun.mp3" type="audio/mpeg">
 </audio>
+
 <svg id= "mySVG" xmlns="http://www.w3.org/2000/svg" 
      width= "100%" height= "100%" 
-style=" outline: 3px solid #FF0000; "
->
+style=" outline: 3px solid #FF0000;
+position: absolute; ">
 </svg>
+<img id= "myImg" src= "/lettersFolder/A.jpg" alt= "angel is on image" 
+style= "width: 100%; height: auto; 
+position: absolute; display: block; ">
 <script>
-document.getElementsByTagName("audio")[0].play();
+var myImg =  document.getElementById("myImg");
+
+myImg.style.position = "absolute";
+myImg.style.display = "inline";
+myImg.style.opacity = 0;
+myImg.style.left = '0%';
+myImg.style.zIndex = "-3";
+
+/*
+// creating image 
+var xmlns = "http://www.w3.org/2000/svg";
+var svg = document.getElementsByTagName('svg')[0];
+var imgElem = document.createElementNS(xmlns, "image");
+imgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', 'angel.jpg');
+imgElem.setAttributeNS(null, "id", "myImg");
+imgElem.setAttributeNS(null, "width", '500px');
+imgElem.setAttributeNS(null, "height", '500px');
+imgElem.setAttributeNS(null, "x", 1000);
+imgElem.setAttributeNS(null, "y", 0);
+
+//imgElem.setAttributeNS(null, "style", "position: relative");
+imgElem.setAttributeNS(null, "style", "display: block");
+//imgElem.setAttributeNS(null, "style", "opacity: 1");
+
+svg.appendChild(imgElem);
+// image has been added
+*/
+
 // creating array with 30 elements of croatian alphabet
 var abeceda =[
 "A","B","C","Č","Ć","D","Dž","Đ","E","F",
@@ -53,8 +86,13 @@ elem.setAttributeNS(null,"y",rawY);
 // setting the stroke color and width, id and inner text attributes of text element
 elem.setAttributeNS(null, "stroke", "green");
 elem.setAttributeNS(null, "stroke-width", 3);
+elem.setAttributeNS(null, "fill", "black");
 elem.setAttributeNS(null, "id",abeceda[i]);
+
 elem.textContent= abeceda[i];
+elem.style.position = " absolute";
+//elem.style.outline = " 10px solid #ff0000";
+
 // font size is determined by innerWidth or innerHeight of the window
 elem.style.fontSize = winH/16+"px";
 
@@ -75,33 +113,79 @@ textElem.setAttributeNS(null, "x", xpos);
 var letters = document.getElementsByTagName("text");
 var k;
 for (k = 0; k < letters.length; k++){
-
 letters[k].addEventListener("click", changeP);
 letters[k].addEventListener("touchStart", changeP);
 } // event listener has been added
+
+var tagName  ;
 function changeP(event){ 
+document.getElementById(event.target.id).removeEventListener("click", changeP);
+myImg.src = "lettersFolder/" +event.target.id + ".jpg";
+var letterXpos = document.getElementById(event.target.id).getAttributeNS(null, "x");
+var letterYpos = document.getElementById(event.target.id).getAttributeNS(null, "y");
+
+var child = document.getElementById(event.target.id);
+var childIndex = 0;
+while( (child = child.previousElementSibling) != null ){
+childIndex++;
+}
+var v = 0;
+for (v = 0; v < letters.length; v++){
+if ( v != childIndex){
+document.getElementsByTagName("text")[v].style.display = "none";
+}}// this closing braces are for two functions, one for loop and second for if condition
+
+tagName = '#' + event.target.id;
+var timelineAnimation = anime.timeline({
+direction: 'alternate',
+loop: 2,
+complete: function(){
+for (v = 0; v < letters.length; v++){
+document.getElementsByTagName("text")[v].style.display = "initial";
+}
+
+document.getElementById(event.target.id).addEventListener("click", changeP);
+}
+});
+timelineAnimation
+.add({
+targets: tagName,
+translateX: -1*letterXpos+winH/16,
+translateY: (winH-letterYpos)-winH/16,
+fontSize: winH/2,
+easing: 'easeOutCubic',
+duration: 900
+})
+.add({
+targets: '#myImg',
+opacity: 1,
+easing: 'easeOutCubic',
+duration: 2000
+});
+
 document.getElementsByTagName("audio")[0].play();
 }
+// end of changeP function
 /*
 // now we are creating 30 <image> elements using "for" loop
-
-
 var j;
 for ( j = 0; j < 1000; j+= 100){
-
-
 var xmlns = "http://www.w3.org/2000/svg";
 var svg = document.getElementsByTagName('svg')[0];
 var imgElem = document.createElementNS(xmlns, "image");
 imgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', 'angel.jpg');
 imgElem.setAttributeNS(null, "width", 100);
 imgElem.setAttributeNS(null, "height", 100);
+
+
 imgElem.setAttributeNS(null, "x", j);
 imgElem.setAttributeNS(null, "y", 0);
+
 svg.appendChild(imgElem);
 }
 // end of loop
 */
+
 window.addEventListener("orientationchange", function() {
 window.setTimeout(loadAgain, 500);
 function loadAgain(){
@@ -109,6 +193,8 @@ window.location.reload(true);
 }
 
 });
+document.getElementsByTagName("audio")[0].play();
+
 </script>
 </body>
 </html>                                         
