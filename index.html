@@ -120,7 +120,7 @@ letters[k].addEventListener("touchStart", changeP);
 var tagName  ;
 function changeP(event){ 
 document.getElementById(event.target.id).removeEventListener("click", changeP);
-myImg.src = "lettersFolder/" +event.target.id + ".jpg";
+myImg.src =  event.target.id + ".jpg";
 var letterXpos = document.getElementById(event.target.id).getAttributeNS(null, "x");
 var letterYpos = document.getElementById(event.target.id).getAttributeNS(null, "y");
 
