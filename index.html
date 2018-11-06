@@ -90,12 +90,13 @@ elem.setAttributeNS(null, "fill", "black");
 elem.setAttributeNS(null, "id",abeceda[i]);
 
 elem.textContent= abeceda[i];
-elem.style.position = " absolute";
+elem.style.position = "relative";
 //elem.style.outline = " 10px solid #ff0000";
 
 // font size is determined by innerWidth or innerHeight of the window
 elem.style.fontSize = winH/16+"px";
-
+elem.style.transform = "translateX(0px)";
+elem.style.transform = "translateY(0px)";
 svg.appendChild(elem);
 } //end of loop
 // centering text elements horizontally
@@ -120,7 +121,7 @@ letters[k].addEventListener("touchStart", changeP);
 var tagName  ;
 function changeP(event){ 
 document.getElementById(event.target.id).removeEventListener("click", changeP);
-myImg.src =  event.target.id + ".jpg";
+myImg.src = "lettersFolder/" +event.target.id + ".jpg";
 var letterXpos = document.getElementById(event.target.id).getAttributeNS(null, "x");
 var letterYpos = document.getElementById(event.target.id).getAttributeNS(null, "y");
 
@@ -150,8 +151,8 @@ document.getElementById(event.target.id).addEventListener("click", changeP);
 timelineAnimation
 .add({
 targets: tagName,
-translateX: -1*letterXpos+winH/16,
-translateY: (winH-letterYpos)-winH/16,
+translateX: winH/16 - letterXpos,
+translateY: winH -letterYpos - winH/16,
 fontSize: winH/2,
 easing: 'easeOutCubic',
 duration: 900
