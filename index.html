@@ -22,6 +22,52 @@ position: absolute; ">
 style= "width: 100%; height: auto; 
 position: absolute; display: block; ">
 <script>
+if (window.innerWidth > window.innerHeight ){
+window.addEventListener("orientationchange", function() {
+window.setTimeout(loadAgain, 500);
+function loadAgain(){
+window.location.reload(true);
+}
+});
+// creating svg inside svg
+var xmlns = "http://www.w3.org/2000/svg";
+var svgOuter = document.getElementsByTagName('svg')[0];
+var svgInner = document.createElementNS(xmlns, "svg");
+svgInner.setAttributeNS(null, "width", "400px");
+svgInner.setAttributeNS(null, "height", "400px");
+//svgInner.setAttributeNS(null, "style", "outline: 10px solid red;");
+svgInner.setAttributeNS(null, "x", window.innerWidth*0.5 + "px");
+svgInner.setAttributeNS(null, "y", window.innerHeight*0.5 + "px");
+svgInner.setAttributeNS(null, "overflow", "visible");
+var elem = document.createElementNS(xmlns, "text");
+//elem.style.transformBox = "fill-box";
+//text element content
+elem.textContent= "OKRENITE MOBITEL";
+// x and y coordinates  of the message
+elem.setAttributeNS(null, "x", "0px");
+elem.setAttributeNS(null, "y", "0px");
+// centering text content
+elem.style.textAnchor = "middle";
+//elem.setAttributeNS(null, "dx", "0px");
+elem.style.fontSize = window.innerHeight*0.1 + "px";
+
+//elem.style.position = "absolute";
+
+svgOuter.appendChild(svgInner);
+document.getElementsByTagName('svg')[1].appendChild(elem);
+
+var myA = anime({
+targets: document.getElementsByTagName('text')[0],
+direction: 'alternate',
+delay: 1000,
+duration: 3000,
+rotate: 90,
+loop: true,
+easing: 'linear'
+});
+
+}else if(window.innerWidth < window.innerHeight ){
+
 var myImg =  document.getElementById("myImg");
 
 myImg.style.position = "absolute";
@@ -84,8 +130,8 @@ rawY += winH/6;
 elem.setAttributeNS(null,"x",rawX);
 elem.setAttributeNS(null,"y",rawY);
 // setting the stroke color and width, id and inner text attributes of text element
-elem.setAttributeNS(null, "stroke", "green");
-elem.setAttributeNS(null, "stroke-width", 3);
+//elem.setAttributeNS(null, "stroke", "green");
+//elem.setAttributeNS(null, "stroke-width", 3);
 elem.setAttributeNS(null, "fill", "black");
 elem.setAttributeNS(null, "id",abeceda[i]);
 
@@ -195,7 +241,7 @@ window.location.reload(true);
 
 });
 document.getElementsByTagName("audio")[0].play();
-
+}
 </script>
 </body>
 </html>                                         
