@@ -57,7 +57,7 @@ svgOuter.appendChild(svgInner);
 document.getElementsByTagName('svg')[1].appendChild(elem);
 
 var myA = anime({
-targets: document.getElementsByTagName('text')[0],
+targets: document.querySelector("text"),
 direction: 'alternate',
 delay: 1000,
 duration: 3000,
