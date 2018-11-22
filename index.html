@@ -13,14 +13,29 @@
 <source src="shotgun.mp3" type="audio/mpeg">
 </audio>
 
-<svg id= "mySVG" xmlns="http://www.w3.org/2000/svg" 
+
+<svg id= "mySVG" 
+xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
      width= "100%" height= "100%" 
 style=" outline: 3px solid #FF0000;
 position: absolute; ">
+<path d='M 4,4 A 1,1 0 1 1 5,4 z'
+style=" stroke: #FF0000;  stroke-width: 5px; fill:none;" id= "myCirclePath2"/>
+
+<!--svg text element wich will be moved along path-->
+  <text x="" y="" text-anchor= "middle" fill= "white" font-size= "66px" id= "landscapeMessage">
+OKRENITE MOBITEL
+    <animateMotion  dur="12s" rotate= "auto-reverse" repeatCount="indefinite">
+<mpath xlink:href= "#myCirclePath2"/>
+    </animateMotion>
+</text>
+
 </svg>
-<img id= "myImg" src= "/lettersFolder/A.jpg" alt= "angel is on image" 
+<img id= "myImg" src= "A.jpg" alt= "angel is on image" 
 style= "width: 100%; height: auto; 
-position: absolute; display: block; ">
+position: absolute; display: block; opacity: 0;">
+
 <script>
 if (window.innerWidth > window.innerHeight ){
 window.addEventListener("orientationchange", function() {
@@ -29,50 +44,24 @@ function loadAgain(){
 window.location.reload(true);
 }
 });
-// creating svg inside svg
-var xmlns = "http://www.w3.org/2000/svg";
-var svgOuter = document.getElementsByTagName('svg')[0];
-var svgInner = document.createElementNS(xmlns, "svg");
-svgInner.setAttributeNS(null, "width", "400px");
-svgInner.setAttributeNS(null, "height", "400px");
-//svgInner.setAttributeNS(null, "style", "outline: 10px solid red;");
-svgInner.setAttributeNS(null, "x", window.innerWidth*0.5 + "px");
-svgInner.setAttributeNS(null, "y", window.innerHeight*0.5 + "px");
-svgInner.setAttributeNS(null, "overflow", "visible");
-var elem = document.createElementNS(xmlns, "text");
-//elem.style.transformBox = "fill-box";
-//text element content
-elem.textContent= "OKRENITE MOBITEL";
-// x and y coordinates  of the message
-elem.setAttributeNS(null, "x", "0px");
-elem.setAttributeNS(null, "y", "0px");
-// centering text content
-elem.style.textAnchor = "middle";
-//elem.setAttributeNS(null, "dx", "0px");
-elem.style.fontSize = window.innerHeight*0.1 + "px";
-
-//elem.style.position = "absolute";
-
-svgOuter.appendChild(svgInner);
-document.getElementsByTagName('svg')[1].appendChild(elem);
-
-var myA = anime({
-targets: 'text',
-direction: 'alternate',
-delay: 1000,
-duration: 3000,
-rotate: 90,
-loop: true,
-easing: 'linear'
-});
-
+var centerW = window.innerWidth*0.5;
+var centerH = window.innerHeight*0.5;
+var plusOne = Number(centerW) + 1;
+var pathEnd = plusOne.toString();
+var pathDstring = "M " + centerW + "," + centerH + "A 10,10 0 1 1 " + pathEnd + "," + centerH + " z";
+document.getElementById("myCirclePath2").setAttributeNS(null, "d", pathDstring);
+document.getElementById("landscapeMessage").style.fontSize = window.innerHeight*0.08 + "px";
+document.getElementById("myCirclePath2").style= "stroke: #FF0000;  stroke-width: 5px; fill:none;"
+document.body.style.backgroundColor= "black";
 }else if(window.innerWidth < window.innerHeight ){
-
+// first we need to hide one text element and one path element
+var pathToRemove = document.getElementById("myCirclePath2");
+pathToRemove.parentNode.removeChild(pathToRemove);
+var textToRemove = document.getElementById("landscapeMessage");
+textToRemove.parentNode.removeChild(textToRemove);
 var myImg =  document.getElementById("myImg");
-
-myImg.style.position = "absolute";
-myImg.style.display = "inline";
 myImg.style.opacity = 0;
+myImg.style.position = "absolute";
 myImg.style.left = '0%';
 myImg.style.zIndex = "-3";
 
@@ -167,7 +156,7 @@ letters[k].addEventListener("touchStart", changeP);
 var tagName  ;
 function changeP(event){ 
 document.getElementById(event.target.id).removeEventListener("click", changeP);
-myImg.src = event.target.id + ".jpg";
+myImg.src =   event.target.id + ".jpg";
 var letterXpos = document.getElementById(event.target.id).getAttributeNS(null, "x");
 var letterYpos = document.getElementById(event.target.id).getAttributeNS(null, "y");
 
